@@ -1,8 +1,11 @@
+from selenium.webdriver.support import expected_conditions
 import data
-import time
 import pytest
 from urban_routes_page import UrbanRoutesPage
 from selenium import webdriver
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.common.by import By
+
 
 class TestUrbanRoutes:
 
@@ -35,7 +38,7 @@ class TestUrbanRoutes:
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.click_ask_for_taxi()
         routes_page.click_comfort_button()
-        assert self.driver.find_element(*routes_page.comfort_selected).get_attribute('class') == "tcard active"
+        assert self.driver.find_element(*routes_page.comfort_selected).get_attribute('class') == "tcard active" # Parte de correción
 
 # Prueba 3 - Rellenar el número de teléfono y verifcar código
     @pytest.mark.sleep(10)
@@ -46,7 +49,7 @@ class TestUrbanRoutes:
         routes_page.click_phone_next_button()
         routes_page.set_verification_code()
         routes_page.click_code_confirm_button()
-        assert self.driver.find_element(*routes_page.num_field).get_property('value') == data.phone_number
+        assert routes_page.get_confirm_number() == data.phone_number # Corrección
 
 # Prueba 4 - Agregar una tarjeta de crédito
     @pytest.mark.sleep(10)
@@ -59,8 +62,7 @@ class TestUrbanRoutes:
         routes_page.press_tap_key()
         routes_page.click_add_information_card()
         routes_page.click_close_button_payment()
-        assert self.driver.find_element(*routes_page.card_added).get_property('id') == 'card-1'
-
+        assert self.driver.find_element(*routes_page.card_added).text == 'Tarjeta' # Corrección
 # Prueba 5 - Escribir un mensaje para el conductor
     @pytest.mark.sleep(10)
     def test_write_msg_for_driver(self):
@@ -89,12 +91,12 @@ class TestUrbanRoutes:
     def test_appears_popup(self):
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.click_request_taxi()
-        assert self.driver.find_element(*routes_page.request_taxi).is_displayed()
+        assert self.driver.find_element(*routes_page.order_pop_up).is_displayed() # Corrección
 
 # Prueba 9 - Espera de la informarción del conductor en el modal
     def test_information_driver(self):
-        routes_page = UrbanRoutesPage(self.driver)
-        time.sleep(40)
+        routes_page = UrbanRoutesPage(self.driver)   # Corrección del wait
+        WebDriverWait(self.driver, 30).until(expected_conditions.visibility_of_element_located((By.CLASS_NAME, "order-number")))
         assert self.driver.find_element(*routes_page.information_driver)
 
     @classmethod

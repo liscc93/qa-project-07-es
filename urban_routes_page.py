@@ -14,32 +14,34 @@ class UrbanRoutesPage:
     to_field = (By.ID, 'to')
     # Paso 2 Seleccionar Comfort
     ask_for_taxi = (By.XPATH, "//button[@class = 'button round']")
-    comfort_button = (By.XPATH, "//div[text()='Comfort'][1]")
-    comfort_selected = (By.XPATH, "//div[@class = 'tcard active']")
+    comfort_button = (By.XPATH, "//img[@alt='Comfort']")
+    comfort_selected = (By.XPATH, "//div[@class = 'tcard active']") # Corrección
     # Paso 3 Agregar número de teléfono
     phone_button = (By.XPATH, "//div[text()='Número de teléfono']")
     num_field = (By.ID, 'phone')
-    phone_next_button = (By.XPATH, "(//button[@type = 'submit'])[1]")
+    phone_next_button = (By.XPATH, "//button[text() = 'Siguiente']") # Corrección
     code_field = (By.ID, 'code')
-    code_confirm_button = (By.XPATH, "(//button[@type = 'submit'])[2]")
+    code_confirm_button = (By.XPATH, "//button[text() = 'Confirmar']") # Corrección
+    confirm_phone_number = (By.XPATH, "div[@class = ''np-text]")
     # Paso 4 Agregar tarjeta de crédito
     payment_method = (By.XPATH, "//div[@class = 'pp-text']")
     add_card_button = (By.XPATH, "//div[@class = 'pp-plus-container']")
     card_number = (By.ID, 'number')
-    card_code = (By.XPATH, "(//input[@id = 'code'])[2]")
-    add_information_card = (By.XPATH, "//button[text()='Agregar']")
-    close_button_payment = (By.XPATH, "(//button[@class = 'close-button section-close'])[3]")
-    card_added = (By.ID, 'card-1')
+    card_code = (By.XPATH, "//input[@placeholder = '12']")
+    add_information_card = (By.XPATH, "//button[text()='Agregar']") # Corrección
+    close_button_payment = (By.XPATH, "(//button[@class = 'close-button section-close'])[3]") #Lo intenté con otros selectores pero no me dio y no tiene muchas opciones
+    card_added = (By.XPATH, "//div[@class = 'pp-value-text']")
     # Paso 5 Mensaje para conductor
     message_driver = (By.ID, 'comment')
     # Paso 6 Agregar cobija y pañuelos
-    blanket_tissues = (By.XPATH, "(//span[@class = 'slider round'])[1]")
+    blanket_tissues = (By.XPATH, "(//span[@class = 'slider round'])[1]") #No hay más opciones
     blanket_tissues_checkbox = (By.CSS_SELECTOR, "div.r-sw-container input.switch-input")
     # Paso 7 Agregar helados
-    ice_cream = (By.XPATH, "(//div[@class ='counter-plus'])[1]")
+    ice_cream = (By.XPATH, "(//div[@class ='counter-plus'])[1]") #No hay más opciones
     ice_cream_added = (By.XPATH, "//div[@class = 'counter-value']")
     # Paso 8 Solicitar el taxi
     request_taxi = (By.XPATH, "//span[@class ='smart-button-secondary']")
+    order_pop_up = (By.XPATH, "//div[@class = 'order-header-title']")
     # Paso 9 Esperar información del conductor
     information_driver = (By.CLASS_NAME, 'order-number')
 
@@ -86,6 +88,9 @@ class UrbanRoutesPage:
     def click_code_confirm_button(self):
         self.driver.find_element(*self.code_confirm_button).click()
 
+    def get_confirm_number(self):
+        return self.driver.find_element(*self.num_field).get_property('value')
+
     def click_payment_method(self):
         self.driver.find_element(*self.payment_method).click()
 
@@ -101,12 +106,14 @@ class UrbanRoutesPage:
     def press_tap_key(self):
         self.driver.find_element(*self.card_code).send_keys(Keys.TAB)
 
-
     def click_add_information_card(self):
         self.driver.find_element(*self.add_information_card).click()
 
     def click_close_button_payment(self):
         self.driver.find_element(*self.close_button_payment).click()
+
+    def get_confirm_card(self):
+        return self.driver.find_element(*self.card_added).get_property('value')
 
     def set_message_driver(self):
         self.driver.find_element(*self.message_driver).send_keys(message_for_driver)
