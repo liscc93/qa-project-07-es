@@ -14,8 +14,8 @@ class UrbanRoutesPage:
     to_field = (By.ID, 'to')
     # Paso 2 Seleccionar Comfort
     ask_for_taxi = (By.XPATH, "//button[@class = 'button round']")
-    comfort_button = (By.XPATH, "//img[@alt='Comfort']")
-    comfort_selected = (By.XPATH, "//div[@class = 'tcard active']") # Corrección
+    comfort_button = (By.XPATH, "//img[@alt='Comfort']") # Corrección
+    comfort_selected = (By.XPATH, "//div[@class = 'tcard active']")
     # Paso 3 Agregar número de teléfono
     phone_button = (By.XPATH, "//div[text()='Número de teléfono']")
     num_field = (By.ID, 'phone')
@@ -27,7 +27,7 @@ class UrbanRoutesPage:
     payment_method = (By.XPATH, "//div[@class = 'pp-text']")
     add_card_button = (By.XPATH, "//div[@class = 'pp-plus-container']")
     card_number = (By.ID, 'number')
-    card_code = (By.XPATH, "//input[@placeholder = '12']")
+    card_code = (By.XPATH, "//input[@placeholder = '12']") # Corrección
     add_information_card = (By.XPATH, "//button[text()='Agregar']") # Corrección
     close_button_payment = (By.XPATH, "(//button[@class = 'close-button section-close'])[3]") #Lo intenté con otros selectores pero no me dio y no tiene muchas opciones
     card_added = (By.XPATH, "//div[@class = 'pp-value-text']")
